@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorites - Movie Journal</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+     <!--fontaweseme Icon Kit-->
+     <script src="https://kit.fontawesome.com/eb3a4c88a7.js" crossorigin="anonymous"></script>
+
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-blue-900 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="index.html">
+                        <img src="logo.png" alt="Logo" class="h-10 w-40 inline-block">
+                    </a>
+                </div>
+                <div class="hidden md:flex md:items-center md:space-x-6">
+                    <a href="index.html" class="text-white hover:text-pink-400">Home</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="p-16">
+        <h1 class="text-3xl font-semibold mb-1">Your Favorite Movies</h1>
+        <div id='movie-list' class="grid lg:grid-cols-4 md:grid-cols-2 gap-12 pt-16"></div>
+            <div id="favorites-list" class="grid lg:grid-cols-4 md:grid-cols-2 gap-12 p-16"></div>
+        </div>
+    </div>  
+
+
+    <script type="module" src="journal.js"></script>
+</body>
+</html>

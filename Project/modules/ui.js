@@ -1,5 +1,7 @@
 //import addToFavorites function from storage
 import { addToFavorites } from './storage.js';
+import { removeFromFavorites } from './storage.js';
+import { isFavoriteFunction } from './storage.js';
 
 //Declarations
 const editButton = document.getElementById('edit'); 
@@ -7,7 +9,7 @@ const saveButton = document.getElementById('save');
 
 
 // Create a product card
-export function createMovieCard(movie) {
+export function createMovieCard(movie, isItFavorite = false) { //default is isItFavorite is false
     const card = document.createElement('div');
     card.className = 'bg-white shadow-md rounded-lg overflow-hidden';
   
@@ -36,17 +38,28 @@ export function createMovieCard(movie) {
     votes.textContent = `(${movie.vote_count} People) `;
   
     const addButton = document.createElement('button');
-    //addButton.setAttribute('id',`favorite-${movie.id}`);
     addButton.className = 'bg-blue-500 text-white px-4 py-2 mt-2 rounded';
-    addButton.textContent = 'Add to Favorites';
-    addButton.type = 'button';
-    addButton.onclick = () => addToFavorites(movie); // add click event like this (not through inner html -> otherwise issues can occur because element is not created from beginning)
-  
+   // Check if the movie is in favorites and set the initial button text
+  const isFavorite = isFavoriteFunction(movie);
+  addButton.textContent = isFavorite ? 'Added to Favorites' : 'Add to Favorites';
+  addButton.type = 'button';
+  addButton.onclick = () => {
+      addToFavorites(movie); 
+      if (isFavoriteFunction(movie)) {
+        removeFromFavorites(movie);
+        addButton.textContent = 'Add to Favorites';
+      } else {
+        addToFavorites(movie);
+        addButton.textContent = 'Added to Favorites';
+      }// add click event like this (not through inner html -> otherwise issues can occur because element is not created from beginning)
+    }
     cardBody.appendChild(title);
     cardBody.appendChild(rating);
     rating.appendChild(popularity);
     rating.appendChild(votes);
-    cardBody.appendChild(addButton);
+    !isItFavorite ? //If its not a favorite, add btn
+      cardBody.appendChild(addButton):
+      null;
     card.appendChild(image);
     card.appendChild(cardBody);
   
@@ -55,7 +68,7 @@ export function createMovieCard(movie) {
 
   // Create product cards for favorites
   export function createMovieCard_detail(favorite) {
-    const card = createMovieCard(favorite); // reuse the function to create the same card layout
+    const card = createMovieCard(favorite, true); // reuse the function to create the card layout but without the button
 
   //Does not work -> create it step by step
   /*cardBody.innerHTML = `
@@ -76,12 +89,6 @@ export function createMovieCard(movie) {
 
         </div>
     `;*/
-
-    //remove btn 'add to favorites'
-    /*
-    const faveBtns = [document.querySelectorAll(`button[id*="favorite-"]`),];
-    faveBtns.forEach((btn) => {btn.remove();});
-    */
     
     //create a wrapper for new elements added to moviecard Layout
     const wrapper = document.createElement('div');
@@ -114,11 +121,19 @@ export function createMovieCard(movie) {
       txtArea.setAttribute('disabled', true); //if clicked, add attribute disable again
       //txtArea.classList.add('text-[#6b7280]');
     })
+
+    //remove Favorite
+    const removeButton = document.createElement('button');
+    removeButton.className = 'bg-blue-500 text-white px-4 py-2 mt-2 rounded';
+    removeButton.textContent = 'Remove from Favorites';
+    removeButton.type = 'button';
+    removeButton.onclick = () => removeFromFavorites(favorite); 
   
     //add new elements to page
       wrapper.appendChild(txtArea)
       wrapper.appendChild(editBtn)
       wrapper.appendChild(saveBtn)
+      wrapper.appendChild(removeButton)
       card.appendChild(wrapper)
     
     return card;

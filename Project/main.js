@@ -34,17 +34,14 @@ window.addEventListener('load', async () => {
   const searchButton = document.getElementById('search-button');
   const searchInput = document.getElementById('userInput'); // Ester: add this outside, -> only define it once
 
+  const searchForm = document.getElementById('search-form') // submit only works on form ! not button
 
   //1. When the search button is clicked, retrieve the input value from the search bar.
   //Add an event listener to the search button to handle search submissions.
-  searchButton.addEventListener ("submit", async function (event) { // add the async to allow await, button = submit instead of click because its a form!
+  searchForm.addEventListener ("submit", async function (event) { // add the async to allow await, form = submit instead of click because its a form!
     event.preventDefault(); // Prevent Page Load with button Click
     // console.dir(searchInput); //TEST logs elements properties & values -> see input object
     const userInput = searchInput.value.trim();  //Get the value from the Input Field every time with button Click and tranform it to add it to the url
-
-/*create the Search Container & append it to the Site
-    const searchContainer = createSearchResultContainer();
-    productContainer.appendChild(searchContainer);*/
 
       if (userInput) { // In case of user Input
         try {
